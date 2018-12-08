@@ -2,27 +2,17 @@ package koreatech.cse.domain;
 
 public class RegionCode {
 
-    private int code;
+    private String code;
     private String state;
     private String city;
     private String sub1;
     private String sub2;
 
-    public String getSub2() {
-        return sub2;
-    }
-
-    public void setSub2(String sub2) {
-        this.sub2 = sub2;
-    }
-
     private int date;
 
-    public int getCode() {
-        return code;
-    }
+    public String getCode() { return code; }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -42,12 +32,18 @@ public class RegionCode {
         this.city = city;
     }
 
-    public String getSub1() {
-        return sub1;
-    }
+    public String getSub1() { return sub1; }
 
     public void setSub1(String sub1) {
         this.sub1 = sub1;
+    }
+
+    public String getSub2() {
+        return sub2;
+    }
+
+    public void setSub2(String sub2) {
+        this.sub2 = sub2;
     }
 
     public int getDate() {

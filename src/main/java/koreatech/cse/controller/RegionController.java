@@ -23,7 +23,7 @@ public class RegionController {
     private RegionMapper regionMapper;
 
     @Transactional
-    @RequestMapping(value="/region", method= RequestMethod.POST)
+    @RequestMapping(value="/register", method= RequestMethod.POST)
     public String regionRegistry(@ModelAttribute RegionCode regionCode, BindingResult result) {
         if (result.hasErrors()) {
             List<FieldError> errors = result.getFieldErrors();
@@ -38,7 +38,7 @@ public class RegionController {
     }
 
     @RequestMapping("/edit")
-    public String edit(Model model, @RequestParam int code) {
+    public String edit(Model model, @RequestParam String code) {
         RegionCode regionCode = regionMapper.findOne(code);
         model.addAttribute("region", regionCode);
         return "edit";
@@ -51,14 +51,14 @@ public class RegionController {
     }
 
     @RequestMapping(value="/delete", method= RequestMethod.GET)
-    public String delete(@RequestParam int code) {
+    public String delete(@RequestParam String code) {
         regionMapper.delete(code);
         return "redirect:/region/list";
 
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model, @RequestParam(required=true) String state,
+    public String list(Model model, @RequestParam(required=false) String state,
                        @RequestParam(required=false) String city,
                        @RequestParam(required=false) String sub1,
                        @RequestParam(required=false) String sub2,
@@ -67,7 +67,7 @@ public class RegionController {
         searchable.setState(state);
         searchable.setCity(city);
         searchable.setSub1(sub1);
-        searchable.setSub1(sub2);
+        searchable.setSub2(sub2);
         searchable.setOrderParam(order);
         //model.addAttribute("regions", regionMapper.findByProvider(searchable));
         model.addAttribute("regions", regionMapper.findByScript(searchable));

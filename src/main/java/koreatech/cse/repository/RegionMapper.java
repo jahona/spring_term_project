@@ -20,17 +20,17 @@ public interface RegionMapper {
     void update(RegionCode regionCode);
 
     @Select("SELECT * FROM WSC.REGION WHERE code = #{code}")
-    RegionCode findOne(@Param("code") int code);
+    RegionCode findOne(@Param("code") String code);
 
     @Delete("DELETE FROM WSC.REGION WHERE CODE = #{code}")
-    void delete(@Param("code") int code);
+    void delete(@Param("code") String code);
 
     @SelectProvider(type = RegionSqlProvider.class, method = "findAllByProvider")
     List<RegionCode> findByProvider(ReSearchable searchable);
 
     //@formatter off
     @Select("<script>"
-            + "SELECT * FROM REGION"
+            + "SELECT * FROM WSC.REGION"
             + "<if test='state != null'> WHERE STATE = #{state}</if>"
             + "<if test='state != null and city != null'> OR CITY = #{city}</if>"
             + "<if test='state != null and city != null and sub1 != null'> OR SUB1 = #{sub1}</if>"
