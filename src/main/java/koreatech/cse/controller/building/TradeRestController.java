@@ -1,7 +1,6 @@
 package koreatech.cse.controller.building;
 
 import koreatech.cse.domain.building.trade.TradeItem;
-import koreatech.cse.repository.TradeMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,9 +28,6 @@ import java.util.List;
 public class TradeRestController {
     @Value("${env.serviceKey}")
     private String serviceKey;
-
-    @Inject
-    private TradeMapper tradeMapper;
 
     @RequestMapping("/trade")
     public @ResponseBody
