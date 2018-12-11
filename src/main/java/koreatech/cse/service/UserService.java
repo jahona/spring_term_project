@@ -58,4 +58,11 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public String countAuthorities() {
+        return "Hi";
+    }
+
+    public String countUsers() {
+        return "Hi";
+    }
 }
