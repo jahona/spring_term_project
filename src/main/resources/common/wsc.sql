@@ -89,11 +89,12 @@ CREATE TABLE `region` (
   `CITY` varchar(45) DEFAULT NULL,
   `SUB1` varchar(45) DEFAULT NULL,
   `SUB2` varchar(45) DEFAULT NULL,
-  `DATE` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `CREATE_AT` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `DATE2` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 
