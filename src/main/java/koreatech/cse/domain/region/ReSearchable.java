@@ -1,4 +1,4 @@
-package koreatech.cse.domain;
+package koreatech.cse.domain.region;
 
 
 public class ReSearchable {

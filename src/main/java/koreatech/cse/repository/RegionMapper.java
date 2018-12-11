@@ -1,8 +1,8 @@
 package koreatech.cse.repository;
 
 
-import koreatech.cse.domain.ReSearchable;
-import koreatech.cse.domain.RegionCode;
+import koreatech.cse.domain.region.ReSearchable;
+import koreatech.cse.domain.region.RegionCode;
 import koreatech.cse.repository.provider.RegionSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,6 @@
 package koreatech.cse.repository.provider;
 
-import koreatech.cse.domain.ReSearchable;
-import koreatech.cse.domain.Searchable;
+import koreatech.cse.domain.region.ReSearchable;
 import org.apache.ibatis.jdbc.SQL;
 
 public class RegionSqlProvider {

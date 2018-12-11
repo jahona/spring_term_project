@@ -1,7 +1,7 @@
-package koreatech.cse.controller;
+package koreatech.cse.controller.region;
 
-import koreatech.cse.domain.ReSearchable;
-import koreatech.cse.domain.RegionCode;
+import koreatech.cse.domain.region.ReSearchable;
+import koreatech.cse.domain.region.RegionCode;
 import koreatech.cse.repository.RegionMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
