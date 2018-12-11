@@ -31,9 +31,9 @@ public interface RegionMapper {
     @Select("<script>"
             + "SELECT * FROM WSC.REGION"
             + "<if test='state != null'> WHERE STATE = #{state}</if>"
-            + "<if test='state != null and city != null'> OR CITY = #{city}</if>"
-            + "<if test='state != null and city != null and sub1 != null'> OR SUB1 = #{sub1}</if>"
-            + "<if test='state != null and city != null and sub1 != null and sub2 != null'> OR SUB2 = #{sub2}</if>"
+            + "<if test='state != null and city != null'> AND CITY = #{city}</if>"
+            + "<if test='state != null and city != null and sub1 != null'> AND SUB1 = #{sub1}</if>"
+            + "<if test='state != null and city != null and sub1 != null and sub2 != null'> AND SUB2 = #{sub2}</if>"
             + "<if test='orderParam != null'>ORDER BY ${orderParam} DESC</if>"
             + "</script>")
     //@formatter on
