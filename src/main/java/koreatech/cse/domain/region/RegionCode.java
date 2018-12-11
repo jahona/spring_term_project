@@ -7,8 +7,7 @@ public class RegionCode {
     private String city;
     private String sub1;
     private String sub2;
-
-    private int date;
+    private String created_at;
 
     public String getCode() { return code; }
 
@@ -46,12 +45,12 @@ public class RegionCode {
         this.sub2 = sub2;
     }
 
-    public int getDate() {
-        return date;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setDate(int date) {
-        this.date = date;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class RegionCode {
                 ", city='" + city + '\'' +
                 ", sub1='" + sub1 + '\'' +
                 ", sub2='" + sub2 + '\'' +
-                ", date=" + date +
+                ", created_at=" + created_at +
                 '}';
     }
 }

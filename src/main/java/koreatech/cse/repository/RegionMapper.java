@@ -11,11 +11,11 @@ import java.util.List;
 
 @Repository
 public interface RegionMapper {
-    @Insert("INSERT INTO WSC.REGION (CODE, STATE, CITY, SUB1, SUB2, DATE) VALUES (#{code},#{state}, #{city}, #{sub1}, #{sub2}, #{date})")
+    @Insert("INSERT INTO WSC.REGION (CODE, STATE, CITY, SUB1, SUB2, CREATED_AT) VALUES (#{code},#{state}, #{city}, #{sub1}, #{sub2}, #{created_at})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = int.class)
     void insert(RegionCode regionCode);
 
-    @Update("UPDATE WSC.REGION SET STATE = #{state}, CITY = #{city}, SUB1 = #{sub1}, SUB2 = #{sub2},  DATE = #{date} WHERE CODE = #{code}")
+    @Update("UPDATE WSC.REGION SET STATE = #{state}, CITY = #{city}, SUB1 = #{sub1}, SUB2 = #{sub2}, CREATED_AT = #{created_at} WHERE CODE = #{code}")
     void update(RegionCode regionCode);
 
     @Select("SELECT * FROM WSC.REGION WHERE code = #{code}")
