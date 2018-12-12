@@ -40,9 +40,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+    public Collection<? extends GrantedAuthority> getAuthorities() { return authorities; }
 
     public String getPassword() {
         return password;

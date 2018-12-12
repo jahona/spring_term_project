@@ -10,7 +10,7 @@ public class UserSqlProvider {
             {
                 SELECT("*");
                 FROM("USERS");
-                if(searchable.getName() != null) {
+                if(searchable != null) {
                     WHERE("NAME = #{name}");
                     if(searchable.getEmail() != null) {
                         OR();
