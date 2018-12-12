@@ -1,13 +1,21 @@
 package koreatech.cse.domain.region;
 
 public class RegionCode {
-
+    private int id;
     private String code;
     private String state;
     private String city;
     private String sub1;
     private String sub2;
     private String created_at;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCode() { return code; }
 
