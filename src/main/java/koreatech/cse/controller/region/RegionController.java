@@ -23,7 +23,7 @@ public class RegionController {
     private RegionMapper regionMapper;
 
     @Transactional
-    @RequestMapping(value="/register", method= RequestMethod.POST, produces="application/json")
+    @RequestMapping(value="/register", method= RequestMethod.POST, consumes="application/json", produces="application/json")
     public @ResponseBody
     ResponseEntity<RegionCode> regionRegistry(@RequestBody RegionCode regionCode) {
         regionMapper.insert(regionCode);
