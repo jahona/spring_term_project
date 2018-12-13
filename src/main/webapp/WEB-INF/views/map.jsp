@@ -13,6 +13,11 @@
 <p><em>지도를 클릭해주세요!</em></p>
 <p id="result"></p>
 
+<form action="/kakao/address/search" method="get">
+    <input type=text name=location SIZE=60 MAXLENGTH=50>
+    <button type="submit">Submit</button>
+</form>
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}"></script>
 <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
