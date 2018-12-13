@@ -52,7 +52,7 @@ public class TradeRestController {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
+//        System.out.println("Response code: " + conn.getResponseCode());
 
         BufferedReader rd;
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -70,7 +70,7 @@ public class TradeRestController {
         rd.close();
         conn.disconnect();
 
-        System.out.println(sb.toString());
+//        System.out.println(sb.toString());
 
         InputSource is = new InputSource(new StringReader(sb.toString()));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -130,7 +130,7 @@ public class TradeRestController {
                 }
             }
 
-            System.out.println(item);
+//            System.out.println(item);
             list.add(item);
         }
 
