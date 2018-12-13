@@ -1,6 +1,8 @@
 package koreatech.cse.domain.building.trade;
 
 public class TradeItem {
+    private int id;
+
     private String dealAmount;
 
     private String buildingArea;
@@ -30,6 +32,14 @@ public class TradeItem {
     private String regionalCode;
 
     private String floor;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDealAmount() {
         return dealAmount;

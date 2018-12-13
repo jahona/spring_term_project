@@ -100,3 +100,32 @@ LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `trade_items`;
+
+CREATE TABLE `trade_items` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `DEAL_AMOUNT` varchar(45),
+  `BUILDING_AREA` varchar(45),
+  `BUILDING_USE` varchar(45),
+  `BUILD_YEAR` varchar(45),
+  `CLASSIFICATION` varchar(45),
+  `DEAL_YEAR` varchar(45) NOT NULL,
+  `PLOTTAGE` varchar(45),
+  `DONG` varchar(45),
+  `SIGUNGU` varchar(45),
+  `LAND_USE` varchar(45),
+  `DEAL_MONTH` varchar(45) NOT NULL,
+  `BUILDING_TYPE` varchar(45),
+  `DEAL_DAY` varchar(45),
+  `REGIONAL_CODE` varchar(45) NOT NULL,
+  `FLOOR` varchar(45),
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+LOCK TABLES `trade_items` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
