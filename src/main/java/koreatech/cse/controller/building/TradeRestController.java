@@ -31,7 +31,7 @@ public class TradeRestController {
 
     @RequestMapping("/trade")
     public @ResponseBody
-    ResponseEntity<List<TradeItem>> restTest() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
+    ResponseEntity<List<TradeItem>> restTest(@RequestParam(value="LAWD_CD", required=true) String lawdCD, @RequestParam(value="DEAL_YMD", required=true) String dealYMD) throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
         RestTemplate restTemplate = new RestTemplate();
 
         String serviceKey_Decoder = URLDecoder.decode(serviceKey, "UTF-8");
@@ -40,8 +40,8 @@ public class TradeRestController {
 
         try {
             urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + serviceKey_Decoder); /*Service Key*/
-            urlBuilder.append("&" + URLEncoder.encode("LAWD_CD", "UTF-8") + "=" + URLEncoder.encode("11110", "UTF-8")); /*각 지역별 행정표준코드관리시스템(www.code.go.kr)의 법정동코드 10자리 중 앞 5자리*/
-            urlBuilder.append("&" + URLEncoder.encode("DEAL_YMD", "UTF-8") + "=" + URLEncoder.encode("201512", "UTF-8")); /*실거래 자료의 계약년월(6자리)*/
+            urlBuilder.append("&" + URLEncoder.encode("LAWD_CD", "UTF-8") + "=" + URLEncoder.encode(lawdCD, "UTF-8")); /*각 지역별 행정표준코드관리시스템(www.code.go.kr)의 법정동코드 10자리 중 앞 5자리*/
+            urlBuilder.append("&" + URLEncoder.encode("DEAL_YMD", "UTF-8") + "=" + URLEncoder.encode(dealYMD, "UTF-8")); /*실거래 자료의 계약년월(6자리)*/
             urlBuilder.append("&" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + URLEncoder.encode(serviceKey_Decoder, "UTF-8")); /*공공데이터포털에서 발급받은 인증키*/
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
