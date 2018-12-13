@@ -10,12 +10,12 @@ public class RegionSqlProvider {
             {
                 SELECT("*");
                 FROM("REGION");
-                if(searchable.getState()!= null) {
+                if (searchable.getState() != null) {
                     WHERE("STATE = #{state}");
-                    if(searchable.getCity() != null) {
+                    if (searchable.getCity() != null) {
                         OR();
                         WHERE("CITY = #{city}");
-                        if(searchable.getSub1() != null) {
+                        if (searchable.getSub1() != null) {
                             OR();
                             WHERE("SUB1 = #{sub1}");
                             if (searchable.getSub2() != null) {
@@ -25,7 +25,7 @@ public class RegionSqlProvider {
                         }
                     }
                 }
-                if(searchable.getOrderParam() != null) {
+                if (searchable.getOrderParam() != null) {
 
                     ORDER_BY(searchable.getOrderParam() + " DESC");
                 }

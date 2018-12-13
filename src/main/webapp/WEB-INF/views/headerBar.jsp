@@ -4,11 +4,11 @@
 <c:set var="user" value="${SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <a href="/user/signup">회원가입</a>
 <sec:authorize access="isAnonymous()">
-<a href="/user/signin">로그인</a>
+    <a href="/user/signin">로그인</a>
 </sec:authorize>
 <sec:authorize access="isAuthenticated()">
-${user.name}님 로그인하셨습니다.
-<a href="/user/signout">로그아웃</a>
+    ${user.name}님 로그인하셨습니다.
+    <a href="/user/signout">로그아웃</a>
 </sec:authorize>
 
 <br/><br/><br/>

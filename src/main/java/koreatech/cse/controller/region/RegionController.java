@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
 import javax.inject.Inject;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class RegionController {
     private RegionMapper regionMapper;
 
     @Transactional
-    @RequestMapping(value="/register", method= RequestMethod.POST, consumes="application/json", produces="application/json")
+    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public @ResponseBody
     ResponseEntity<RegionCode> regionRegistry(@RequestBody RegionCode regionCode) {
         regionMapper.insert(regionCode);

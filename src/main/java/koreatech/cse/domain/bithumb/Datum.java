@@ -3,6 +3,7 @@ package koreatech.cse.domain.bithumb;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,15 +13,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "cont_no",
-    "transaction_date",
-    "type",
-    "units_traded",
-    "price",
-    "total"
+        "cont_no",
+        "transaction_date",
+        "type",
+        "units_traded",
+        "price",
+        "total"
 })
 public class Datum {
-
     @JsonProperty("cont_no")
     private String contNo;
     @JsonProperty("transaction_date")

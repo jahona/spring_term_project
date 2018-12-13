@@ -47,7 +47,7 @@ public interface UserMapper {
             + "<when test='name != null and email != null'> WHERE NAME = #{name} OR EMAIL = #{email}</when>"
             + "<when test='name != null'> WHERE NAME = #{name}</when>"
             + "<otherwise> </otherwise>"
-			+ "</choose>"
+            + "</choose>"
             + "<if test='orderParam != null'>ORDER BY ${orderParam} DESC</if>"
             + "</script>")
     //@formatter on

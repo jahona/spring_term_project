@@ -20,7 +20,7 @@ public class TemperatureRestController {
 
     // GET
     @Transactional
-    @RequestMapping(value="/temperature/{sensorId}", method= RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/temperature/{sensorId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Temperature> temperature(@PathVariable("sensorId") String sensorId) {
         Temperature temperature = temperatureMapper.findOneBySensorId(sensorId);
         if (temperature == null) {
@@ -31,7 +31,7 @@ public class TemperatureRestController {
     }
 
     @Transactional
-    @RequestMapping(value="/xml/temperature/{sensorId}", method=RequestMethod.GET, produces="application/xml")
+    @RequestMapping(value = "/xml/temperature/{sensorId}", method = RequestMethod.GET, produces = "application/xml")
     public ResponseEntity<Temperature> temperatureXml(@PathVariable("sensorId") String sensorId) {
         Temperature temperature = temperatureMapper.findOneBySensorId(sensorId);
         if (temperature == null) {
@@ -42,7 +42,7 @@ public class TemperatureRestController {
     }
 
     @Transactional
-    @RequestMapping(value="/temperature/location/{location}", method=RequestMethod.GET, produces="application/json")
+    @RequestMapping(value = "/temperature/location/{location}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<Temperature>> temperatureByLocation(
             @PathVariable("location") String location) {
         List<Temperature> temperatureList = temperatureMapper.findByLocation(location);
@@ -54,7 +54,7 @@ public class TemperatureRestController {
     }
 
     @Transactional
-    @RequestMapping(value="/xml/temperature/location/{location}", method=RequestMethod.GET, produces="application/xml")
+    @RequestMapping(value = "/xml/temperature/location/{location}", method = RequestMethod.GET, produces = "application/xml")
     public ResponseEntity<List<Temperature>> temperatureByLocationXml(
             @PathVariable("location") String location) {
         List<Temperature> temperatureList = temperatureMapper.findByLocation(location);
@@ -70,7 +70,7 @@ public class TemperatureRestController {
     @RequestBody 로 클라이언트에서 JSON으로 보내는 데이터를 받아서 객체로 사용이 가능하다.
      */
     @Transactional
-    @RequestMapping(value = "/temperature", method = RequestMethod.POST, produces="application/json")
+    @RequestMapping(value = "/temperature", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> createTemperature(@RequestBody Temperature temperature, UriComponentsBuilder ucBuilder) {
         if (temperatureMapper.findOneBySensorId(temperature.getSensorId()) != null) {
             System.out.println("A temperature sensor with id (" +
@@ -90,7 +90,7 @@ public class TemperatureRestController {
 
     // PUT
     @Transactional
-    @RequestMapping(value = "/temperature/{sensorId}", method = RequestMethod.PUT, produces="application/json")
+    @RequestMapping(value = "/temperature/{sensorId}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<Void> updateTemperature(@PathVariable("sensorId") String sensorId, @RequestBody Temperature temperature) {
         Temperature storedTemperature = temperatureMapper.findOneBySensorId(sensorId);
 

@@ -10,14 +10,14 @@ public class UserSqlProvider {
             {
                 SELECT("*");
                 FROM("USERS");
-                if(searchable != null) {
+                if (searchable != null) {
                     WHERE("NAME = #{name}");
-                    if(searchable.getEmail() != null) {
+                    if (searchable.getEmail() != null) {
                         OR();
                         WHERE("EMAIL = #{email}");
                     }
                 }
-                if(searchable.getOrderParam() != null) {
+                if (searchable.getOrderParam() != null) {
 
                     ORDER_BY(searchable.getOrderParam() + " DESC");
                 }

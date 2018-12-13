@@ -19,7 +19,7 @@
             <td></td>
         </sec:authorize>
     </tr>
-    <c:forEach var = "u" varStatus = "varStatus" items="${users}">
+    <c:forEach var="u" varStatus="varStatus" items="${users}">
         <tr>
             <td>${varStatus.count}</td>
             <td>${u.name}</td>

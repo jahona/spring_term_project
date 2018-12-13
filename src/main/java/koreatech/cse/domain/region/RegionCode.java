@@ -17,7 +17,9 @@ public class RegionCode {
         this.id = id;
     }
 
-    public String getCode() { return code; }
+    public String getCode() {
+        return code;
+    }
 
     public void setCode(String code) {
         this.code = code;
@@ -39,7 +41,9 @@ public class RegionCode {
         this.city = city;
     }
 
-    public String getSub1() { return sub1; }
+    public String getSub1() {
+        return sub1;
+    }
 
     public void setSub1(String sub1) {
         this.sub1 = sub1;

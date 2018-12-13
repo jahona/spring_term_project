@@ -3,6 +3,7 @@ package koreatech.cse.domain.bithumb;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,22 +13,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "opening_price",
-    "closing_price",
-    "min_price",
-    "max_price",
-    "average_price",
-    "units_traded",
-    "volume_1day",
-    "volume_7day",
-    "buy_price",
-    "sell_price",
-    "24H_fluctate",
-    "24H_fluctate_rate",
-    "date"
+        "opening_price",
+        "closing_price",
+        "min_price",
+        "max_price",
+        "average_price",
+        "units_traded",
+        "volume_1day",
+        "volume_7day",
+        "buy_price",
+        "sell_price",
+        "24H_fluctate",
+        "24H_fluctate_rate",
+        "date"
 })
 public class Data {
-
     @JsonProperty("opening_price")
     private String openingPrice;
     @JsonProperty("closing_price")

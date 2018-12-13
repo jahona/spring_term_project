@@ -17,7 +17,7 @@
     <c:when test="${a > 1}">
         a가 1보다 큽니다.
     </c:when>
-	<c:when test="${a == 1}">
+    <c:when test="${a == 1}">
         a는 1입니다.
     </c:when>
     <c:otherwise>
@@ -28,7 +28,7 @@
 
 
 <%--for--%>
-<c:forEach var="i" begin="0" end = "9" step="1">
+<c:forEach var="i" begin="0" end="9" step="1">
     i값: ${i}<br/>
 </c:forEach>
 
