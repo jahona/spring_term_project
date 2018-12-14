@@ -39,19 +39,21 @@ public class TradeRestController {
 
     @RequestMapping(value = "/trade/ym_record", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    ResponseEntity<Map<String, Object>> getMaxOrMinTradeRecord(@RequestParam(value = "LAWD_CD", required = true) String lawdCD, @RequestParam(value = "DEAL_YMD", required = true) String dealYMD) throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
+    ResponseEntity<Map<String, Object>> getMaxOrMinTradeRecord(@RequestParam(value = "LAWD_CD", required = true) String lawdCD, @RequestParam(value = "DEAL_YMD", required = true) String dealYMD,
+                                                               @RequestParam(value = "MONTH_COUNT", required = false, defaultValue = "12") String monthCount) throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
         // id와 regional_code를 가진 데이터가 디비 있는지 검사
         String year = dealYMD.substring(0, 4);
         String month = dealYMD.substring(4, 6);
 
         int iyear = Integer.parseInt(year);
         int imonth = Integer.parseInt(month);
+        int imonthCount = Integer.parseInt(monthCount);
 
         List<TradeYMRecord> tradeYMRecords = new ArrayList<>();
 
         // 해당 region에 대해 1년치 데이터가 적재되어있는지 db에서 비교 후 없으면 적재한다.
         imonth++;
-        for(int k=0 ; k<=12 ; k++) {
+        for(int k=0 ; k<imonthCount ; k++) {
             imonth--;
 
             if(imonth == 0) {
@@ -206,7 +208,7 @@ public class TradeRestController {
                 tradeYMRecordMapper.insert(tradeYMRecord);
                 tradeYMRecords.add(tradeYMRecord);
             } else {
-                tradeYMRecords = tradeYMRecordMapper.findListByTerm(dealYMD, lawdCD, 12);
+                tradeYMRecords = tradeYMRecordMapper.findListByTerm(dealYMD, lawdCD, imonthCount);
             }
         }
 
@@ -217,8 +219,7 @@ public class TradeRestController {
         map.put("year_ym", dealYMD);
         map.put("regional_code", lawdCD);
         map.put("trade_record", tradeYMRecords);
-//        map.put("max_trade", maxTrade);
-//        map.put("min_trade", minTrade);
+        map.put("trade_record_num", tradeYMRecords.size());
 
         return new ResponseEntity<Map<String, Object>>(map, headers, HttpStatus.CREATED);  // 201
     }
