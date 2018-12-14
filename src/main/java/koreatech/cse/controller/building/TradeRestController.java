@@ -1,7 +1,9 @@
 package koreatech.cse.controller.building;
 
 import koreatech.cse.domain.building.trade.TradeItem;
+import koreatech.cse.domain.building.trade.TradeYMRecord;
 import koreatech.cse.repository.TradeItemMapper;
+import koreatech.cse.repository.TradeYMRecordMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,9 @@ import javax.xml.xpath.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/building")
@@ -33,6 +37,9 @@ public class TradeRestController {
     @Inject
     private TradeItemMapper tradeItemMapper;
 
+    @Inject
+    private TradeYMRecordMapper tradeYMRecordMapper;
+
     @RequestMapping(value = "/trade", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     ResponseEntity<List<TradeItem>> restTest(@RequestParam(value = "LAWD_CD", required = true) String lawdCD, @RequestParam(value = "DEAL_YMD", required = true) String dealYMD) throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
@@ -41,15 +48,8 @@ public class TradeRestController {
         String month = dealYMD.substring(4, 6);
 
         List<TradeItem> items = tradeItemMapper.getList(Integer.parseInt(year), Integer.parseInt(month), lawdCD);
-        List<TradeItem> list = new ArrayList<TradeItem>();
 
-        // 디비에 있으면 바로 활용
-        if (!items.isEmpty()) {
-            System.out.println("items not empty");
-            list = items;
-        } else {
-            System.out.println("items empty");
-            // 없으면 open_api 호출 후 db에 넣기
+        if (items.isEmpty()) {
             String serviceKey_Decoder = URLDecoder.decode(serviceKey, "UTF-8");
 
             StringBuilder urlBuilder = new StringBuilder("http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade"); /*URL*/
@@ -112,7 +112,10 @@ public class TradeRestController {
 //                System.out.println("현재 노드 이름 : " + node.getNodeName());
 
                     if (name.equals("거래금액")) {
-                        item.setDealAmount(node.getTextContent());
+                        String dealAmount = node.getTextContent();
+                        dealAmount = dealAmount.replace(",", "");
+                        int amount = Integer.parseInt(dealAmount);
+                        item.setDealAmount(amount);
                     } else if (name.equals("건물면적")) {
                         item.setBuildingArea(node.getTextContent());
                     } else if (name.equals("건물주용도")) {
@@ -145,13 +148,45 @@ public class TradeRestController {
                 }
 
 //            System.out.println(item);
-                list.add(item);
+                items.add(item);
                 tradeItemMapper.insert(item);
             }
         }
 
+        TradeYMRecord tradeYMRecord = tradeYMRecordMapper.fineOne(dealYMD, lawdCD);
+        if (tradeYMRecord == null) {
+            tradeYMRecord = new TradeYMRecord();
+
+            TradeItem min = items
+                    .stream()
+                    .min(Comparator.comparing(TradeItem::getDealAmount))
+                    .orElseThrow(NoSuchElementException::new);
+
+            TradeItem max = items
+                    .stream()
+                    .max(Comparator.comparing(TradeItem::getDealAmount))
+                    .orElseThrow(NoSuchElementException::new);
+
+            int sum = items
+                    .stream()
+                    .mapToInt(TradeItem::getDealAmount).sum();
+
+            int tradeCount = items.size();
+
+            tradeYMRecord.setMinimumDeal(min.getDealAmount());
+            tradeYMRecord.setMinimumTradeId(min.getId());
+            tradeYMRecord.setMaximumDeal(max.getDealAmount());
+            tradeYMRecord.setMaximumTradeId(max.getId());
+            tradeYMRecord.setTradeCount(tradeCount);
+            tradeYMRecord.setAverageDeal(sum / tradeCount);
+            tradeYMRecord.setRegionalCode(lawdCD);
+            tradeYMRecord.setDealYM(dealYMD);
+
+            tradeYMRecordMapper.insert(tradeYMRecord);
+        }
+
         HttpHeaders headers = new HttpHeaders();
 
-        return new ResponseEntity<List<TradeItem>>(list, headers, HttpStatus.CREATED);  // 201
+        return new ResponseEntity<List<TradeItem>>(items, headers, HttpStatus.CREATED);  // 201
     }
 }
