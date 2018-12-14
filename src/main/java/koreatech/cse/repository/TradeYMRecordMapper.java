@@ -18,5 +18,8 @@ public interface TradeYMRecordMapper {
     void insert(TradeYMRecord tradeYMRecord);
 
     @Select("SELECT * FROM wsc.trade_ym_records WHERE DEAL_YM = #{dealYM} AND REGIONAL_CODE = #{regionalCode}")
-    TradeYMRecord fineOne(@Param("dealYM") String dealYM, @Param("regionalCode") String regionalCode);
+    TradeYMRecord findOne(@Param("dealYM") String dealYM, @Param("regionalCode") String regionalCode);
+
+    @Select("SELECT * FROM wsc.trade_ym_records WHERE DEAL_YM <= #{dealYM} AND REGIONAL_CODE = #{regionalCode} ORDER BY DEAL_YM DESC limit ${count}")
+    List<TradeYMRecord> findListByTerm(@Param("dealYM") String dealYM, @Param("regionalCode") String regionalCode, @Param("count") int count);
 }

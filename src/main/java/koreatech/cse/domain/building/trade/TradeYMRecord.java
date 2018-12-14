@@ -93,7 +93,7 @@ public class TradeYMRecord {
 
     @Override
     public String toString() {
-        return "TradeYMRecord{" +
+        return "{" +
                 "id=" + id +
                 ", minimumDeal=" + minimumDeal +
                 ", maximumDeal=" + maximumDeal +

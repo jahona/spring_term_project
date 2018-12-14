@@ -19,4 +19,10 @@ public interface TradeItemMapper {
 
     @Select("SELECT * FROM wsc.trade_items WHERE DEAL_YEAR = #{dealYear} AND DEAL_MONTH = #{dealMonth} AND REGIONAL_CODE = #{regionalCode}")
     List<TradeItem> getList(@Param("dealYear") int dealYear, @Param("dealMonth") int dealMonth, @Param("regionalCode") String regionalCode);
+
+    @Select("SELECT * FROM wsc.trade_items WHERE ID = #{id}")
+    TradeItem findOne(@Param("id") int id);
+
+    @Select("SELECT * FROM wsc.trade_items WHERE DEAL_YEAR = #{dealYear} AND DEAL_MONTH = #{dealMonth} AND REGIONAL_CODE = #{regionalCode}")
+    TradeItem findOneByCondition(@Param("dealYear") int dealYear, @Param("dealMonth") int dealMonth, @Param("regionalCode") String regionalCode);
 }
