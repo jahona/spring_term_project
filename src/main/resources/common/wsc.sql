@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS `trade_items`;
 
 CREATE TABLE `trade_items` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `DEAL_AMOUNT` varchar(45),
+  `DEAL_AMOUNT` int(10) unsigned NOT NULL,
   `BUILDING_AREA` varchar(45),
   `BUILDING_USE` varchar(45),
   `BUILD_YEAR` varchar(45),

@@ -3,7 +3,7 @@ package koreatech.cse.domain.building.trade;
 public class TradeItem {
     private int id;
 
-    private String dealAmount;
+    private int dealAmount;
 
     private String buildingArea;
 
@@ -41,11 +41,11 @@ public class TradeItem {
         this.id = id;
     }
 
-    public String getDealAmount() {
+    public int getDealAmount() {
         return dealAmount;
     }
 
-    public void setDealAmount(String dealAmount) {
+    public void setDealAmount(int dealAmount) {
         this.dealAmount = dealAmount;
     }
 
