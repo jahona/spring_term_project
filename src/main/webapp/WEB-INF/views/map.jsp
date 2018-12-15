@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +15,7 @@
     <tr>
         <td width="28%">
             <p>검색할 내용을 입력해주세요.</p>
-            <form action="/naver/search" method="get">
+            <form action="/kakaos/search" method="get">
                 <input type=text name=query SIZE=60 MAXLENGTH=50>
                 <button type="submit">검색</button>
             </form>

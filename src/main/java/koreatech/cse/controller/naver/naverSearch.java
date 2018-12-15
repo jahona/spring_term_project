@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 @RestController
@@ -30,6 +31,7 @@ public class naverSearch {
     ResponseEntity<String> regionRegistry(@RequestParam(value = "query", required = true) String query) throws IOException {
 
         StringBuffer response = new StringBuffer();
+
         try {
             String text = URLEncoder.encode(query, "UTF-8");
 
