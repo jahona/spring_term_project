@@ -66,13 +66,17 @@ public class Kakao {
     @Transactional
     @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     public @ResponseBody
-    ResponseEntity<String> regionRegistry(Model model, @RequestParam(value = "query", required = true) String query) throws IOException {
+    ResponseEntity<String> regionRegistry(Model model, @RequestParam(value = "query", required = true) String query,
+                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                          @RequestParam(value = "size", defaultValue = "10") Integer size) throws IOException {
 //        String serviceKey_Decoder = URLDecoder.decode(kakaoServiceKey, "UTF-8");
 
         StringBuilder urlBuilder = new StringBuilder("https://dapi.kakao.com/v2/search/web"); /*URL*/
 
         try {
             urlBuilder.append("?" + URLEncoder.encode("query", "UTF-8") + "=" + URLEncoder.encode(query, "UTF-8"));
+            urlBuilder.append("&" + URLEncoder.encode("page", "UTF-8") + "=" + page);
+            urlBuilder.append("&" + URLEncoder.encode("size", "UTF-8") + "=" + size);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
