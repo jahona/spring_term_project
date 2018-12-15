@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -60,5 +61,73 @@ public class Kakao {
         conn.disconnect();
 
         return new ResponseEntity<String>(sb.toString(), HttpStatus.OK);
+    }
+
+    @Transactional
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    public @ResponseBody
+    ResponseEntity<String> regionRegistry(Model model, @RequestParam(value = "query", required = true) String query) throws IOException {
+//        String serviceKey_Decoder = URLDecoder.decode(kakaoServiceKey, "UTF-8");
+
+        StringBuilder urlBuilder = new StringBuilder("https://dapi.kakao.com/v2/search/web"); /*URL*/
+
+        try {
+            urlBuilder.append("?" + URLEncoder.encode("query", "UTF-8") + "=" + URLEncoder.encode(query, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        URL url = new URL(urlBuilder.toString());
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-type", "application/json");
+        con.setRequestProperty("Content-type", "UTF-8");
+        con.setRequestProperty("Authorization", "KakaoAK " + kakaoServiceKey);
+
+//        System.out.println("Response code: " + conn.getResponseCode());
+
+        int responseCode = con.getResponseCode();
+
+        BufferedReader br;
+
+        if (responseCode == 200) {
+            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {  // 에러 발생
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+        }
+
+        StringBuilder link = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            link.append(line);
+        }
+
+        br.close();
+        con.disconnect();
+        System.out.println(link.toString());
+
+        String str = link.toString();
+        try {
+            str = decode(link.toString());
+        } catch (Exception e) {
+        }
+
+        return new ResponseEntity<String>(str, HttpStatus.OK);
+    }
+
+    public static String decode(String unicode) throws Exception {
+        StringBuffer str = new StringBuffer();
+
+        char ch = 0;
+        for (int i = unicode.indexOf("\\u"); i > -1; i = unicode.indexOf("\\u")) {
+            ch = (char) Integer.parseInt(unicode.substring(i + 2, i + 6), 16);
+            str.append(unicode.substring(0, i));
+            str.append(String.valueOf(ch));
+            unicode = unicode.substring(i + 6);
+        }
+        str.append(unicode);
+
+        return str.toString();
     }
 }
