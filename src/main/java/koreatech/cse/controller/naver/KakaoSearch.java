@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -23,9 +24,9 @@ public class KakaoSearch {
     private String kakaoServiceKey;
 
     @Transactional
-    @RequestMapping(value = "search", method = RequestMethod.GET,  produces = "application/json; charset=utf8")
+    @RequestMapping(value = "search", method = RequestMethod.GET,  produces = "application/json; charset=UTF-8")
     public @ResponseBody
-    ResponseEntity<String> regionRegistry(@RequestParam(value = "query", required = true) String query) throws IOException {
+    ResponseEntity<String> regionRegistry(Model model, @RequestParam(value = "query", required = true) String query) throws IOException {
 //        String serviceKey_Decoder = URLDecoder.decode(kakaoServiceKey, "UTF-8");
 
         StringBuilder urlBuilder = new StringBuilder("https://dapi.kakao.com/v2/search/web"); /*URL*/
@@ -50,7 +51,7 @@ public class KakaoSearch {
 
         BufferedReader br;
 
-        if (responseCode == 200) { 
+        if (responseCode == 200) {
             br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         } else {  // 에러 발생
             br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
@@ -58,7 +59,7 @@ public class KakaoSearch {
 
         StringBuilder link = new StringBuilder();
         String line;
-        while ((line =  br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             link.append(line);
         }
 
@@ -66,7 +67,27 @@ public class KakaoSearch {
         con.disconnect();
         System.out.println(link.toString());
 
-        return new ResponseEntity<String>(link.toString(), HttpStatus.OK);
+        String str = link.toString();
+        try {
+            str = decode(link.toString());
+        } catch (Exception e) {
+        }
+
+        return new ResponseEntity<String>(str, HttpStatus.OK);
     }
 
+    public static String decode(String unicode)throws Exception {
+        StringBuffer str = new StringBuffer();
+
+        char ch = 0;
+        for (int i = unicode.indexOf("\\u"); i > -1; i = unicode.indexOf("\\u")) {
+            ch = (char) Integer.parseInt(unicode.substring(i + 2, i + 6), 16);
+            str.append(unicode.substring(0, i));
+            str.append(String.valueOf(ch));
+            unicode = unicode.substring(i + 6);
+        }
+        str.append(unicode);
+
+        return str.toString();
+    }
 }
