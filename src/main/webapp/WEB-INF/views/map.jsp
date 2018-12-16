@@ -32,7 +32,7 @@
                 <div id="map" align="right" style="width:100%;height:500px;"></div>
                 <div>
                     <p><em>지도를 클릭해주세요!</em></p>
-                    <p id="result"></p>
+                    <%--<p id="result"></p>--%>
                     <div class="input-group mb-3">
                         <input id="input-address-search" type="text" class="form-control" placeholder="Input Address"
                                aria-label="Input Address" aria-describedby="basic-addon1">
@@ -75,17 +75,17 @@
 
         var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-        daum.maps.event.addListener(map, 'click', function (mouseEvent) {
-
-            // 클릭한 위도, 경도 정보를 가져옵니다
-            var latlng = mouseEvent.latLng;
-
-            var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-            message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-            var resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = message;
-        });
+        // daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+        //
+        //     // 클릭한 위도, 경도 정보를 가져옵니다
+        //     var latlng = mouseEvent.latLng;
+        //
+        //     var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+        //     message += '경도는 ' + latlng.getLng() + ' 입니다';
+        //
+        //     var resultDiv = document.getElementById('result');
+        //     resultDiv.innerHTML = message;
+        // });
 
         function relayout() {
 
