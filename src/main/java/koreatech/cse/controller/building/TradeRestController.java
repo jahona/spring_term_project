@@ -68,12 +68,13 @@ public class TradeRestController {
             }
 
             newDealYMD += Integer.toString(imonth);
-            System.out.println(newDealYMD);
 
             TradeYMRecord tradeYMRecord = tradeYMRecordMapper.findOne(newDealYMD, lawdCD);
 
             // 디비 적재한다.
             if(tradeYMRecord == null) {
+                System.out.println("db store : " + newDealYMD);
+
                 List<TradeItem> items = new ArrayList<TradeItem>();
 
                 String serviceKey_Decoder = URLDecoder.decode(serviceKey, "UTF-8");
@@ -221,6 +222,6 @@ public class TradeRestController {
         map.put("trade_record", tradeYMRecords);
         map.put("trade_record_num", tradeYMRecords.size());
 
-        return new ResponseEntity<Map<String, Object>>(map, headers, HttpStatus.CREATED);  // 201
+        return new ResponseEntity<Map<String, Object>>(map, headers, HttpStatus.OK);
     }
 }
