@@ -189,7 +189,33 @@
 
         function clickListener(bCode) {
             return function() {
-                alert(bCode)
+                var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+                var url = full + "/building/trade/ym_record?LAWD_CD=" + bCode.substring(0, 5) + "&DEAL_YMD=201810";
+
+                console.log(url);
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open("GET", url, true);
+                xhr.setRequestHeader("Content-type", "application/json");
+                xhr.send(null);
+                xhr.addEventListener("load", function() {
+                    switch (xhr.status) {
+                        case 200:
+                            // 성공 처리
+                            console.log('success')
+                            // console.log(xhr.responseText)
+                            // console.log(typeof xhr.responseText);
+                            var obj = JSON.parse(xhr.responseText);
+                            console.log(obj)
+                            break;
+                        case 500:
+                            // 예외 처리
+                            console.log('fail')
+                            console.log(xhr.responseText)
+                            alert('server error');
+                    }
+                });
             }
         }
 
