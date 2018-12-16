@@ -129,9 +129,12 @@
             for(var i = 0 ; i < mapArrs.length ; i++) {
                 positions.push({
                     c: mapArrs[i]['address_name'],
-                    latlng: new daum.maps.LatLng(mapArrs[i]['y'], mapArrs[i]['x'])
+                    latlng: new daum.maps.LatLng(mapArrs[i]['y'], mapArrs[i]['x']),
+                    bCode: mapArrs[i]['address']['b_code']
                 });
             }
+
+            console.log(positions);
 
             // 마커 이미지의 이미지 주소입니다
             var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -161,6 +164,9 @@
                 // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
                 daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
                 daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+
+                // 마커에 click 이벤트를 등록합니다
+                daum.maps.event.addListener(marker, 'click', clickListener(positions[i].bCode));
             }
         }
 
@@ -179,6 +185,12 @@
             return function() {
                 infowindow.open(map, marker);
             };
+        }
+
+        function clickListener(bCode) {
+            return function() {
+                alert(bCode)
+            }
         }
 
         // 인포윈도우를 닫는 클로저를 만드는 함수입니다
