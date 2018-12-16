@@ -127,7 +127,7 @@
 
             url += "?location=" + inputVal;
 
-            console.log(url);
+            // console.log(url);
 
             var xhr = new XMLHttpRequest();
 
@@ -138,7 +138,7 @@
                 switch (xhr.status) {
                     case 200:
                         // 성공 처리
-                        console.log('success');
+                        // console.log('success');
                         // console.log(xhr.responseText)
                         // console.log(typeof xhr.responseText);
                         var obj = JSON.parse(xhr.responseText);
@@ -149,8 +149,8 @@
                         break;
                     case 500:
                         // 예외 처리
-                        console.log('fail');
-                        console.log(xhr.responseText);
+                        // console.log('fail');
+                        // console.log(xhr.responseText);
                         alert('server error');
                 }
             });
@@ -170,7 +170,7 @@
 
             url += "?query=" + inputVal;
 
-            console.log(url);
+            // console.log(url);
 
             var xhr = new XMLHttpRequest();
 
@@ -181,7 +181,7 @@
                 switch (xhr.status) {
                     case 200:
                         // 성공 처리
-                        console.log('success');
+                        // console.log('success');
                         // console.log(xhr.responseText)
                         // console.log(typeof xhr.responseText);
                         var obj = JSON.parse(xhr.responseText);
@@ -198,8 +198,8 @@
                         break;
                     case 500:
                         // 예외 처리
-                        console.log('fail');
-                        console.log(xhr.responseText);
+                        // console.log('fail');
+                        // console.log(xhr.responseText);
                         alert('server error');
                 }
             });
@@ -257,8 +257,8 @@
         }
 
         function setCenter(lat, lng) {
-            console.log(lat);
-            console.log(lng);
+            // console.log(lat);
+            // console.log(lng);
             // 이동할 위도 경도 위치를 생성합니다
             var moveLatLon = new daum.maps.LatLng(lat, lng);
 
@@ -278,7 +278,7 @@
                 var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
                 var url = full + "/building/trade/ym_record?LAWD_CD=" + bCode.substring(0, 5) + "&DEAL_YMD=201810";
 
-                console.log(url);
+                // console.log(url);
 
                 var xhr = new XMLHttpRequest();
 
@@ -289,7 +289,7 @@
                     switch (xhr.status) {
                         case 200:
                             // 성공 처리
-                            console.log('success')
+                            // console.log('success')
                             // console.log(xhr.responseText)
                             // console.log(typeof xhr.responseText);
                             $('#trade-table > tbody').empty();
@@ -307,8 +307,8 @@
                             break;
                         case 500:
                             // 예외 처리
-                            console.log('fail')
-                            console.log(xhr.responseText)
+                            // console.log('fail')
+                            // console.log(xhr.responseText)
                             alert('server error');
                     }
                 });
