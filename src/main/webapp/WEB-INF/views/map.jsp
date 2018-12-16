@@ -225,15 +225,15 @@
                             console.log('success')
                             // console.log(xhr.responseText)
                             // console.log(typeof xhr.responseText);
+                            $('#trade-table > tbody').empty();
+
                             var obj = JSON.parse(xhr.responseText);
-                            console.log(obj)
                             for (var i = 0; i < obj['trade_record'].length; i++) {
-                                console.log(i);
                                 $('#trade-table > tbody:last').append('<tr>' +
+                                    '<td>' + obj['trade_record'][i].dealYM + '</td>' +
                                     '<td>' + obj['trade_record'][i].minimumDeal + '</td>' +
                                     '<td>' + obj['trade_record'][i].maximumDeal + '</td>' +
                                     '<td>' + obj['trade_record'][i].averageDeal + '</td>' +
-                                    '<td>' + obj['trade_record'][i].dealYM + '</td>' +
                                     '<td>' + obj['trade_record'][i].tradeCount + '</td>' +
                                     '</tr>');
                             }
