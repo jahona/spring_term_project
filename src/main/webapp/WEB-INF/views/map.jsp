@@ -11,7 +11,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
+        body {
+            max-height: 150%;
+        }
 
+        .table {
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>
@@ -21,10 +27,25 @@
         <div class="col-md-4">
             <div>
                 <p>검색할 내용을 입력해주세요.</p>
-                <form action="/kakaos/search" method="get">
-                    <input type=text name=query SIZE=60 MAXLENGTH=50>
-                    <button type="submit">검색</button>
-                </form>
+                <div class="input-group mb-3">
+                    <input id="input-search" type="text" class="form-control" placeholder="Input Address"
+                           aria-label="Input Address" aria-describedby="basic-addon1">
+                    <button id="btn-search" type="button" class="btn btn-success">검색</button>
+                </div>
+            </div>
+            <div class="search">
+                <table id="search-table" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">링크</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="col-md-8">
@@ -36,7 +57,7 @@
                     <div class="input-group mb-3">
                         <input id="input-address-search" type="text" class="form-control" placeholder="Input Address"
                                aria-label="Input Address" aria-describedby="basic-addon1">
-                        <button id="btn-address-search" type="button" class="btn btn-success">Default</button>
+                        <button id="btn-address-search" type="button" class="btn btn-success">검색</button>
                     </div>
                 </div>
             </div>
@@ -44,10 +65,10 @@
                 <table id="trade-table" class="table">
                     <thead>
                     <tr>
+                        <th scope="col">거래날짜</th>
                         <th scope="col">최소거래금액</th>
                         <th scope="col">최대거래금액</th>
                         <th scope="col">평균거래금액</th>
-                        <th scope="col">거래날짜</th>
                         <th scope="col">전체거래수</th>
                     </tr>
                     </thead>
@@ -66,6 +87,7 @@
 <script>
     window.onload = function () {
         $("#btn-address-search").click(searchAddress);
+        $("#btn-search").click(search);
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
@@ -103,7 +125,7 @@
             var inputVal = input.val();
 
             if (inputVal == '') {
-                alert('empty string')
+                alert('empty string');
                 return false;
             }
 
@@ -120,19 +142,68 @@
                 switch (xhr.status) {
                     case 200:
                         // 성공 처리
-                        console.log('success')
+                        console.log('success');
                         // console.log(xhr.responseText)
                         // console.log(typeof xhr.responseText);
                         var obj = JSON.parse(xhr.responseText);
-                        var documents = obj['documents']
-                        console.log(documents);
+                        var documents = obj['documents'];
+                        // console.log(documents);
 
                         setPositionKaKaoMap(documents);
                         break;
                     case 500:
                         // 예외 처리
-                        console.log('fail')
-                        console.log(xhr.responseText)
+                        console.log('fail');
+                        console.log(xhr.responseText);
+                        alert('server error');
+                }
+            });
+        }
+
+        function search() {
+            var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+            var url = full + "/kakao/search";
+
+            var input = $("#input-search");
+            var inputVal = input.val();
+
+            if (inputVal == '') {
+                alert('empty string');
+                return false;
+            }
+
+            url += "?query=" + inputVal;
+
+            console.log(url);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.send(null);
+            xhr.addEventListener("load", function () {
+                switch (xhr.status) {
+                    case 200:
+                        // 성공 처리
+                        console.log('success');
+                        // console.log(xhr.responseText)
+                        // console.log(typeof xhr.responseText);
+                        var obj = JSON.parse(xhr.responseText);
+
+                        $('#search-table > tbody').empty();
+
+                        for (var i = 0; i < obj['documents'].length; i++) {
+                            $('#search-table > tbody:last').append('<tr>' +
+                                // '<td>' + obj['documents'][i].t + '</td>' +
+                                "<td><a target='_blank' href='" + obj['documents'][i]['url'] + "'>" + obj['documents'][i]['title'] + "</a></td>" +
+                                '</tr>');
+                        }
+
+                        break;
+                    case 500:
+                        // 예외 처리
+                        console.log('fail');
+                        console.log(xhr.responseText);
                         alert('server error');
                 }
             });
@@ -153,7 +224,7 @@
                 });
             }
 
-            console.log(positions);
+            // console.log(positions);
 
             // 마커 이미지의 이미지 주소입니다
             var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
