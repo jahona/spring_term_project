@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
-
+        body {
+            max-height: 150%;
+        }
     </style>
 </head>
 <body>
@@ -21,10 +23,25 @@
         <div class="col-md-4">
             <div>
                 <p>검색할 내용을 입력해주세요.</p>
-                <form action="/kakaos/search" method="get">
-                    <input type=text name=query SIZE=60 MAXLENGTH=50>
-                    <button type="submit">검색</button>
-                </form>
+                <div class="input-group mb-3">
+                    <input id="input-search" type="text" class="form-control" placeholder="Input Address"
+                           aria-label="Input Address" aria-describedby="basic-addon1">
+                    <button id="btn-search" type="button" class="btn btn-success">검색</button>
+                </div>
+            </div>
+            <div class="search">
+                <table id="search-table" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">링크</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="col-md-8">
@@ -32,11 +49,11 @@
                 <div id="map" align="right" style="width:100%;height:500px;"></div>
                 <div>
                     <p><em>지도를 클릭해주세요!</em></p>
-                    <p id="result"></p>
+                    <%--<p id="result"></p>--%>
                     <div class="input-group mb-3">
                         <input id="input-address-search" type="text" class="form-control" placeholder="Input Address"
                                aria-label="Input Address" aria-describedby="basic-addon1">
-                        <button id="btn-address-search" type="button" class="btn btn-success">Default</button>
+                        <button id="btn-address-search" type="button" class="btn btn-success">검색</button>
                     </div>
                 </div>
             </div>
@@ -44,10 +61,10 @@
                 <table id="trade-table" class="table">
                     <thead>
                     <tr>
+                        <th scope="col">거래날짜</th>
                         <th scope="col">최소거래금액</th>
                         <th scope="col">최대거래금액</th>
                         <th scope="col">평균거래금액</th>
-                        <th scope="col">거래날짜</th>
                         <th scope="col">전체거래수</th>
                     </tr>
                     </thead>
@@ -66,6 +83,7 @@
 <script>
     window.onload = function () {
         $("#btn-address-search").click(searchAddress);
+        $("#btn-search").click(search);
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
@@ -75,17 +93,17 @@
 
         var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-        daum.maps.event.addListener(map, 'click', function (mouseEvent) {
-
-            // 클릭한 위도, 경도 정보를 가져옵니다
-            var latlng = mouseEvent.latLng;
-
-            var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-            message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-            var resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = message;
-        });
+        // daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+        //
+        //     // 클릭한 위도, 경도 정보를 가져옵니다
+        //     var latlng = mouseEvent.latLng;
+        //
+        //     var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+        //     message += '경도는 ' + latlng.getLng() + ' 입니다';
+        //
+        //     var resultDiv = document.getElementById('result');
+        //     resultDiv.innerHTML = message;
+        // });
 
         function relayout() {
 
@@ -103,7 +121,7 @@
             var inputVal = input.val();
 
             if (inputVal == '') {
-                alert('empty string')
+                alert('empty string');
                 return false;
             }
 
@@ -120,19 +138,68 @@
                 switch (xhr.status) {
                     case 200:
                         // 성공 처리
-                        console.log('success')
+                        console.log('success');
                         // console.log(xhr.responseText)
                         // console.log(typeof xhr.responseText);
                         var obj = JSON.parse(xhr.responseText);
-                        var documents = obj['documents']
-                        console.log(documents);
+                        var documents = obj['documents'];
+                        // console.log(documents);
 
                         setPositionKaKaoMap(documents);
                         break;
                     case 500:
                         // 예외 처리
-                        console.log('fail')
-                        console.log(xhr.responseText)
+                        console.log('fail');
+                        console.log(xhr.responseText);
+                        alert('server error');
+                }
+            });
+        }
+
+        function search() {
+            var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+            var url = full + "/kakao/search";
+
+            var input = $("#input-search");
+            var inputVal = input.val();
+
+            if (inputVal == '') {
+                alert('empty string');
+                return false;
+            }
+
+            url += "?query=" + inputVal;
+
+            console.log(url);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.send(null);
+            xhr.addEventListener("load", function () {
+                switch (xhr.status) {
+                    case 200:
+                        // 성공 처리
+                        console.log('success');
+                        // console.log(xhr.responseText)
+                        // console.log(typeof xhr.responseText);
+                        var obj = JSON.parse(xhr.responseText);
+
+                        $('#search-table > tbody').empty();
+
+                        for (var i = 0; i < obj['documents'].length; i++) {
+                            $('#search-table > tbody:last').append('<tr>' +
+                                // '<td>' + obj['documents'][i].t + '</td>' +
+                                "<td><a target='_blank' href='" + obj['documents'][i]['url'] + "'>" + obj['documents'][i]['title'] + "</a></td>" +
+                                '</tr>');
+                        }
+
+                        break;
+                    case 500:
+                        // 예외 처리
+                        console.log('fail');
+                        console.log(xhr.responseText);
                         alert('server error');
                 }
             });
@@ -153,7 +220,7 @@
                 });
             }
 
-            console.log(positions);
+            // console.log(positions);
 
             // 마커 이미지의 이미지 주소입니다
             var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -225,15 +292,15 @@
                             console.log('success')
                             // console.log(xhr.responseText)
                             // console.log(typeof xhr.responseText);
+                            $('#trade-table > tbody').empty();
+
                             var obj = JSON.parse(xhr.responseText);
-                            console.log(obj)
                             for (var i = 0; i < obj['trade_record'].length; i++) {
-                                console.log(i);
                                 $('#trade-table > tbody:last').append('<tr>' +
+                                    '<td>' + obj['trade_record'][i].dealYM + '</td>' +
                                     '<td>' + obj['trade_record'][i].minimumDeal + '</td>' +
                                     '<td>' + obj['trade_record'][i].maximumDeal + '</td>' +
                                     '<td>' + obj['trade_record'][i].averageDeal + '</td>' +
-                                    '<td>' + obj['trade_record'][i].dealYM + '</td>' +
                                     '<td>' + obj['trade_record'][i].tradeCount + '</td>' +
                                     '</tr>');
                             }
