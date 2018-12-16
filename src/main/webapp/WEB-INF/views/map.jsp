@@ -14,10 +14,6 @@
         body {
             max-height: 150%;
         }
-
-        .table {
-            text-overflow: ellipsis;
-        }
     </style>
 </head>
 <body>
